@@ -8,6 +8,7 @@ import com.test.teste.Entities.UserEntity;
 public interface UserServiceInterface {
     public List<UserEntity>list();
     public Optional<UserEntity>listId(long id);
-    public int save(UserEntity user);
+    public int saveUser(UserEntity user);
     public void delete(long id);
+    public void update(UserEntity user);
 }

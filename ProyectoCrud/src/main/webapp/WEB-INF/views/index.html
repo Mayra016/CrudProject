@@ -7,8 +7,10 @@
 </head>
 <body>
     <h1>Se ha actualizado</h1>
-    <div class="container mt-4>
-    	<table class="table>
+    <div class="container mt-4">
+		<a th:href="@{/new}" class="btn btn-primary">New user</a>
+		<br> </br>
+    	<table class="table">
     		<thead>
 				<tr>
 					<th>ID </th>
@@ -19,11 +21,11 @@
 			</thead>
 			<tbody>
 				<tr th:each="user:${users}">
-					<td>${user.id} </td>
-					<td>${user.name} </td>
-					<td>${user.phoneNumber} </td>
+					<td th:text="${user.id}"> </td>
+					<td th:text="${user.name}"> </td>
+					<td th:text="${user.phoneNumber}"> </td>
 					<td>
-						<a class="btn btn-warning">Edit</a>
+						<a th:href="@{/edit/}+${user.id}" class="btn btn-warning">Edit</a>
 						<a class="btn btn-danger">Delete</a>
 					</td>
 				</tr>

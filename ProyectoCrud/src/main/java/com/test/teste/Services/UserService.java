@@ -23,17 +23,35 @@ public class UserService implements UserServiceInterface {
     
     @Override
     public Optional<UserEntity>listId(long id) {
-		return null;
+		return data.findById(id);
 	}
     
     @Override
     public void delete(long id) {
 	}
     
-	@Override
-	public int save(UserEntity user) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int saveUser(UserEntity user) {
+        int response = 0;
+        UserEntity userData = data.save(user);
+        if (!userData.equals(null)) {
+        	response = 1;
+        }
+        return response;
+    }
+    
+    @Override
+    public void update(UserEntity user) {
+        Optional<UserEntity> optionalUser = data.findById(user.getId());
+        if (optionalUser.isPresent()) {
+            UserEntity toUpdateUser = optionalUser.get();
+            toUpdateUser.setName(user.getName());
+            toUpdateUser.setPhoneNumber(user.getPhoneNumber());
+            data.save(toUpdateUser);
+        }
+    }
+
+
+
 
 }
