@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import com.test.teste.Entities.UserEntity;
 import com.test.teste.Interfaces.UserServiceInterface;
 import com.test.teste.Repositories.UserRepository;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class UserService implements UserServiceInterface {
     @Autowired
     private UserRepository data;
+    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
 
     @Override
@@ -28,6 +31,7 @@ public class UserService implements UserServiceInterface {
     
     @Override
     public void delete(long id) {
+    	data.deleteById(id);
 	}
     
     @Override
@@ -44,10 +48,14 @@ public class UserService implements UserServiceInterface {
     public void update(UserEntity user) {
         Optional<UserEntity> optionalUser = data.findById(user.getId());
         if (optionalUser.isPresent()) {
-            UserEntity toUpdateUser = optionalUser.get();
-            toUpdateUser.setName(user.getName());
-            toUpdateUser.setPhoneNumber(user.getPhoneNumber());
-            data.save(toUpdateUser);
+        	UserEntity oldUser = optionalUser.get();
+        	oldUser.setName(user.getName());
+        	oldUser.setPhoneNumber(user.getPhoneNumber());
+        	oldUser.setId(user.getId());
+            data.save(oldUser);
+            LOGGER.info("Usuario actualizado: " + oldUser);
+        } else {
+        	LOGGER.info("No se ha encontrado el id");
         }
     }
 

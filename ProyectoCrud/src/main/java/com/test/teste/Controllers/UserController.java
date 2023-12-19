@@ -36,10 +36,11 @@ public class UserController {
     
     @PostMapping("/save")
     public String saveUserData(@Valid UserEntity user, Model model) {
-    	if (user.getId() == null) {
-    		service.saveUser(user);
+    	Long userId = user.getId();
+    	if (userId!=null && userId>=1) {
+    		service.update(user);  		
     	} else {
-    		service.update(user);
+    		service.saveUser(user);
     	}
     	return "redirect:/list";
     }
@@ -49,6 +50,12 @@ public class UserController {
     	Optional<UserEntity>user=service.listId(id);
     	model.addAttribute("user", user);
     	return "form";
+    }
+    
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable long id, Model model) {
+    	service.delete(id);
+    	return"redirect:/list";
     }
     
     
